@@ -1,0 +1,28 @@
+
+Manuel Utilisateur
+Commandes:
+
+* .. : Revenir au repertoire parent.
+* [NER] . : Entrer dans le repertoire designe par le [NER].
+* [NER]visu : Si le [NER] correspond a un fichier txt, adoc, md ou json, 'visu' affichera son contenu si il s'agit 
+d'un autre type de fichier, 'visu' affichera sa taille et si il s'agit d'un dossier visu affichera 'Cet element 
+n'est pas un fichier'.
+* mkdir <nom> : Creer un nouveau dossier avec le nom specifie si il n'existe pas deja dans le repertoire courant.
+* touch <nom> : Creer un nouveau fichier avec le nom specifie si il n'existe pas deja dans le repertoire courant.
+* rm [NER] : Supprime l'element du repertoire correspondant au [NER] si il existe. Si l'element est un dossier rm 
+supprime egalement tout son contenu.
+* copy [NER] : Copie l'element correspondant au [NER] et le conserve en memoire dans le Presse-Papier.
+* paste : Colle l'element du Presse-Papier dans le repertoire courant, si l'element est deja present, 
+il sera renomme nomElem-copy-1[extention], si l'element est deja present et que sa copie est presente n fois, 
+l'element a coller sera renomme nomElem-copy-n[extention]. 
+* [NER] cut : Copie l'element correspondant au [NER] si il existe et le conserve en memoire dans le Presse-Papier, 
+puis le supprime du repertoire courant.
+* find <nom> : Recherche un fichier dans l'arborescence ayant pour racine le repertoire courant, retourne une liste 
+avec tout les chemins ou il a ete trouve.
+* [NER] + <annotation> : Ajoute la note <annotation> a l'element concerne par le [NER], cette note est conservee 
+sous forme d'objet serialise dans le fichier notes.json.
+* [NER] - : Supprime toutes les annotations concernant l'element designe par le [NER].
+Les argument entre crochets [] signifie qu'ils sont facultatifs quant a ceux entre chevrons <>, ils sont 
+obligatoires.
+Pour toutes les commandes necessitant un [NER] si il n'est pas renseigne, le dernier [NER] sera utilise par defaut 
+si il existe dans le repertoire courant.

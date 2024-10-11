@@ -1,0 +1,143 @@
+= Gestionnaire de Fichiers - Documentation Technique
+
+Le gestionnaire de fichiers est une application en ligne de commande développée en Java, avec beaucoup de fonctionnalités pour manipuler des fichiers et des dossiers, comme celles que l'on trouve dans notre système d'exploitation classique. 
+
+== Fonctionnalités Clés
+
+Le gestionnaire de fichiers propose les fonctionnalités suivantes pour faciliter la manipulation des éléments du système de fichiers :
+
+* Création de fichiers avec `touch [nom_fichier]`.
+* Création de dossiers avec `mkdir [nom_dossier]`.
+* Suppression de fichiers ou de dossiers avec `rm [nom]`.
+* Copie d'éléments dans un presse-papiers avec `[NER] copy`.
+* Déplacement d'éléments dans le presse-papiers avec `cut [NER]`.
+* Collage du contenu du presse-papiers avec `paste`.
+* Visualisation du contenu de fichiers avec `[NER] visu`.
+* Recherche de fichiers ou de dossiers avec `find [nom]`.
+* Ajout et suppression d'annotations avec `[NER] + [annotation]` et `[NER] -`.
+* Navigation dans le système de fichiers avec `..` pour le répertoire parent et `.` pour les sous-répertoires.
+
+
+== Structure et Rôles des Classes
+
+Le projet est structuré autour de classes clés, chacune jouant un rôle spécifique :
+
+`Entite`::
+  Classe de base pour les fichiers et dossiers, fournissant des méthodes communes comme `rm`, `copy`, `paste`, et `find`.
+
+`Fichier`::
+  Dérivée de `Entite`, cette classe gère la création et les propriétés des fichiers.
+
+`Dossier`::
+  Également dérivée de `Entite`, elle gère la création et la vérification des dossiers.
+
+`Systeme_Fichier`::
+  Facilite l'interaction avec le système de fichiers, notamment la navigation et l'affichage des contenus.
+
+`Annotation`::
+  Gère les annotations des fichiers et dossiers en utilisant Gson pour la sérialisation et désérialisation en JSON.
+
+`Command`::
+  Interface en ligne de commande pour l'interprétation et l'exécution des commandes de l'utilisateur.
+
+== Utilisation et Compilation
+
+Pour utiliser et compiler le gestionnaire de fichiers :
+
+. Prérequis :
+  * Java JDK 17
+  * Maven
+
+. Étapes de compilation :
+  1. Ouvrir un terminal et naviguer vers le répertoire du projet.
+  2. Exécuter `./mvnw package` pour compiler.
+  3. Exécuter `mvn clean compile assembly:single` pour créer un fichier JAR.
+  4. Lancer avec `java -jar .\target\explorer-1.0-SNAPSHOT-jar-with-dependencies.jar`.
+
+== Bibliothèques Java Utilisées
+
+Pour le développement de ce projet, plusieurs bibliothèques Java ont été utilisées :
+
+* `java.time.LocalDateTime` : Gestion des dates et heures.
+* `java.util.*` (ArrayList, HashMap, List, Map) : Manipulation de collections de données.
+* `java.io.File` : Interaction avec le système de fichiers.
+* `java.nio.file.*` : Opérations sur les fichiers et les chemins.
+* `org.apache.commons.io.FilenameUtils` : Simplification de la manipulation des noms de fichiers.
+* `com.google.gson.*` : Sérialisation et désérialisation des objets Java en JSON.
+* `org.jline.*` : Création d'une interface utilisateur en ligne de commande interactive.
+* `org.junit.jupiter.api.*` : Assertions et annotations pour les tests unitaires.
+
+Ces bibliothèques ont été choisies pour leur efficacité et leur facilité d'utilisation dans le contexte de notre application.
+
+== Gestion des Commandes
+
+La gestion des commandes est réalisée dans la classe `Command`. Les commandes saisies par l'utilisateur sont lues et interprétées pour déclencher les actions correspondantes. Un exemple est la commande `mkdir`, qui crée un nouveau dossier si le nom est fourni. En cas d'erreur, un message approprié est affiché.
+
+== Rapport de Couverture des Tests
+
+Pour consulter le rapport de couverture de code par les tests :
+
+1. Exécuter `mvn test` dans le terminal.
+2. Le rapport est généré dans `target/site/jacoco/index.html`.
+3. Ouvrir ce fichier dans un navigateur pour visualiser le rapport.
+
+== Améliorations et Évolutions
+
+Pour optimiser l'expérience utilisateur et améliorer l'usage de l'interface clavier, les améliorations suivantes ont été intégrées ou sont envisagées pour de futures mises à jour :
+
+* Introduction des commandes `touch` et `mkdir` pour créer respectivement des fichiers et des dossiers.
+* Implémentation de la commande `rm` pour supprimer des éléments et leur contenu.
+* Adaptation de la méthode `copy` pour copier des éléments dans un presse-papiers et optimisation de la méthode `paste` pour gérer le nommage et le placement des éléments collés.
+* Intégration de la commande `help` pour fournir une aide contextuelle aux utilisateurs.
+* Prise en charge de la visualisation du contenu des fichiers (txt, md, adoc, json).
+* Ajout de fonctionnalités pour le renommage (`rename` ou `mv`) et le déplacement d'éléments, ainsi que l'introduction de la notion de droits utilisateurs.
+* Auto-complétion et suggestions pour les commandes et les chemins de fichiers, ainsi qu'un historique des commandes pour faciliter leur réutilisation.
+* Raccourcis clavier pour les commandes fréquemment utilisées et commandes interactives avec des mécanismes de confirmation.
+* Personnalisation de l'interface utilisateur, y compris un mode plein écran pour s'adapter aux préférences et besoins de l'utilisateur.
+
+
+
+
+= Manuel Technique
+
+== Fonctionnalités et Commandes
+
+* La fonctionnalité _help_ affiche une liste des commandes disponibles, leur syntaxe, et une description détaillée de l'action qu'elles permettent d'accomplir sur les éléments du répertoire.
+
+* Les commandes _rm_ et _touch_ ont été ajoutées pour respectivement supprimer et créer des fichiers ou dossiers. _rm_ supprime un élément et tout son contenu, tandis que _touch_ crée un fichier. Ces commandes permettent de créer ou de supprimer des éléments depuis n'importe quel répertoire, tant que le chemin est spécifié.
+
+* La commande _copy_ s'inspire de l'expérience utilisateur sous Windows avec l'utilisation d'un Presse-Papier, permettant de copier un élément une seule fois et de le coller autant de fois que souhaité.
+
+* La commande _paste_ a été améliorée pour une meilleure gestion du nommage des éléments. Lors du collage multiple d'un fichier au même emplacement, le nom de la copie intègre un index qui représente le nombre de fois que la copie de l'élément de base est présente à l'emplacement.
+
+* La commande _visu_ permet d'afficher le contenu des fichiers txt, md, adoc, et json. Si l'élément n'est pas un fichier de ce type, elle affiche sa taille.
+
+
+
+== Gestion des Annotations
+
+* Lors de l'ajout ou de la suppression d'annotations, le fichier des annotations est mis à jour pour refléter ces changements.
+
+
+
+== Exemple de Traitement de Commande
+
+Dans le traitement d'une commande saisie par l'utilisateur, le programme dans la classe `Command` effectue les étapes suivantes :
+
+1. _Lecture de la commande_ : Utilisation de la bibliothèque JLine pour lire la commande entrée par l'utilisateur.
+2. _Analyse de la commande_ : La commande est analysée pour extraire le NER (Numéro d'Élément de Répertoire), la commande elle-même et les éventuels arguments.
+3. _Traitement de la commande_ : En fonction de la commande identifiée, le programme effectue les actions appropriées. Les commandes peuvent inclure la navigation dans le répertoire, la visualisation du contenu des fichiers, la création de dossiers, la suppression d'éléments, la copie/coupe et le collage d'éléments, la recherche de fichiers, et l'ajout/suppression d'annotations.
+4. _Interaction avec les classes correspondantes_ : Les méthodes des classes `Entite`, `Dossier`, `Fichier`, `Systeme_Fichier`, et `Annotation` sont appelées en fonction de la commande spécifiée. Ces classes contiennent les fonctionnalités nécessaires pour exécuter les actions demandées.
+
+Exemple avec la commande `mkdir` :
+----
+case "mkdir" :
+    if (argument.isEmpty()){
+        System.out.println("Vous n'avez pas renseigné de nom pour la création de dossier.");
+    } else {
+        new Dossier(argument, Systeme_Fichier.getRepertoireCourantString());
+    }
+    break;
+----
+Si l'utilisateur entre la commande `mkdir`, le programme vérifie si un nom de dossier est spécifié en argument. Si c'est le cas, il crée un nouvel objet de type `Dossier` avec le nom spécifié dans le répertoire courant à l'aide de la classe `Systeme_Fichier`. Si aucun nom n'est spécifié, un message d'erreur est affiché. Après l'exécution, le répertoire courant est listé à nouveau pour afficher le résultat de l'action.
+
